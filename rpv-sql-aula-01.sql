@@ -1,5 +1,3 @@
-#
-
 CREATE DATABASE db_Livraria;
 
 SHOW DATABASES;
@@ -10,15 +8,15 @@ SELECT DATABASE();
 
 DROP DATABASE IF EXISTS db_livraria;
 
-CREATE DATABASE db_Familia;
-
 # Banco de Dados Família
+
+CREATE DATABASE db_Familia;
 
 USE db_Familia;
 
 CREATE TABLE Pai (
-ID_PAI SMALLINT PRIMARY KEY,
-NOME_Pai VARCHAR(50)
+ID_Pai SMALLINT PRIMARY KEY,
+Nome_Pai VARCHAR(50)
 ) ENGINE=InnoDB;
 
 CREATE TABLE Filho (
@@ -65,3 +63,59 @@ INNER JOIN Pai
 ON Filho.ID_Pai=Pai.ID_Pai;
 
 SELECT * FROM Filho;
+
+# Exercício 01
+
+/* 
+Criar um banco de dados e 3 tabelas.
+Escolha o tema de sua preferência.
+*/
+
+CREATE DATABASE db_exercise01;
+
+USE db_exercise01;
+
+CREATE TABLE Pais (
+ID_Pais SMALLINT PRIMARY KEY,
+Nome_Pais VARCHAR(50)
+) ENGINE=InnoDB;
+
+CREATE TABLE Estado (
+ID_Estado SMALLINT PRIMARY KEY,
+Nome_Estado VARCHAR(50),
+ID_Pais SMALLINT,
+CONSTRAINT fk_id_pais FOREIGN KEY(ID_Pais)
+REFERENCES Pais(ID_Pais)
+ON DELETE CASCADE
+ON UPDATE CASCADE
+) ENGINE=InnoDB
+
+CREATE TABLE Cidade (
+ID_Cidade SMALLINT PRIMARY KEY,
+Nome_Cidade VARCHAR(50),
+ID_Estado SMALLINT,
+CONSTRAINT fk_id_estado FOREIGN KEY(ID_Estado)
+REFERENCES Estado(ID_Estado)
+ON DELETE CASCADE
+ON UPDATE CASCADE
+) ENGINE=InnoDB
+
+INSERT INTO Pais
+VALUES (1,"Brasil")
+
+INSERT INTO Estado
+VALUES (1,"MG"),(2,"SP"),(3,"RJ");
+
+INSERT INTO Cidade
+VALUES (1,"Cataguases"),(3,"Rio de Janeiro"),(2,"São Paulo"),(1,"Leopoldina");
+
+SELECT * FROM Pais;
+
+SELECT * FROM Estado;
+
+SELECT * FROM Cidade;
+
+SELECT P.ID_Pais, P.Nome_Pais, E.ID_Estado, E.Nome_Estado, C.ID_Cidade, C.Nome_Cidade
+FROM Cidade C
+INNER JOIN Estado E, Pais P
+ON C.ID_Cidade = E.ID_Estado, E.ID_Estado = C.ID_Cidade;
