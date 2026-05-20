@@ -64,6 +64,59 @@ ON Filho.ID_Pai=Pai.ID_Pai;
 
 SELECT * FROM Filho;
 
+DROP TABLE Filho;
+
+DROP TABLE Pai;
+
+CREATE TABLE Pai (
+ID_Pai SMALLINT PRIMARY KEY,
+Nome_Pai VARCHAR(50)
+) ENGINE=InnoDB;
+
+CREATE TABLE Filho (
+ID_Filho SMALLINT AUTO_INCREMENT PRIMARY KEY,
+Nome_Filho VARCHAR(50),
+ID_Pai SMALLINT,
+CONSTRAINT fk_id_pai FOREIGN KEY(ID_Pai)
+REFERENCES Pai(ID_Pai)
+ON DELETE SET NULL
+ON UPDATE CASCADE
+) Engine=InnoDB;
+
+SELECT P.ID_Pai, P.Nome_Pai, F.ID_Filho, F.Nome_Filho
+FROM Filho F
+INNER JOIN Pai P
+ON F.ID_Pai = P.ID_Pai;
+
+INSERT INTO Pai
+VALUES (1,"João"),(2,"Mário"),(3,"Renato"),(4,"Emerson"),(5,"André");
+
+INSERT INTO Filho (Nome_Filho, ID_Pai)
+VALUES ("João",1),("Mário",1),("Renato",3),("Emerson",4),("André",3);
+
+DELETE FROM Pai
+WHERE Nome_Pai="Renato";
+
+SELECT * FROM Filho;
+
+DROP TABLE Filho;
+
+Drop TABLE Pai;
+
+CREATE TABLE Pai (
+ID_Pai SMALLINT PRIMARY KEY,
+Nome_Pai VARCHAR(50)
+) ENGINE=InnoDB;
+
+CREATE TABLE Filho (
+ID_Filho SMALLINT AUTO_INCREMENT PRIMARY KEY,
+Nome_Filho VARCHAR(50),
+ID_Pai SMALLINT,
+CONSTRAINT fk_id_pai FOREIGN KEY(ID_Pai)
+REFERENCES Pai(ID_Pai)
+ON DELETE RESTRICT
+) Engine=InnoDB;
+
 # Exercício 01
 
 /* 
@@ -88,7 +141,7 @@ CONSTRAINT fk_id_pais FOREIGN KEY(ID_Pais)
 REFERENCES Pais(ID_Pais)
 ON DELETE CASCADE
 ON UPDATE CASCADE
-) ENGINE=InnoDB
+) ENGINE=InnoDB;
 
 CREATE TABLE Cidade (
 ID_Cidade SMALLINT PRIMARY KEY,
@@ -98,16 +151,16 @@ CONSTRAINT fk_id_estado FOREIGN KEY(ID_Estado)
 REFERENCES Estado(ID_Estado)
 ON DELETE CASCADE
 ON UPDATE CASCADE
-) ENGINE=InnoDB
+) ENGINE=InnoDB;
 
 INSERT INTO Pais
-VALUES (1,"Brasil")
+VALUES (1,"Brasil");
 
 INSERT INTO Estado
-VALUES (1,"MG"),(2,"SP"),(3,"RJ");
+VALUES (1,"MG",1),(2,"SP",1),(3,"RJ",1);
 
 INSERT INTO Cidade
-VALUES (1,"Cataguases"),(3,"Rio de Janeiro"),(2,"São Paulo"),(1,"Leopoldina");
+VALUES (1,"Cataguases",1),(2,"Rio de Janeiro",3),(3,"São Paulo",2),(4,"Leopoldina",1);
 
 SELECT * FROM Pais;
 
@@ -117,5 +170,5 @@ SELECT * FROM Cidade;
 
 SELECT P.ID_Pais, P.Nome_Pais, E.ID_Estado, E.Nome_Estado, C.ID_Cidade, C.Nome_Cidade
 FROM Cidade C
-INNER JOIN Estado E, Pais P
-ON C.ID_Cidade = E.ID_Estado, E.ID_Estado = C.ID_Cidade;
+INNER JOIN Estado E ON C.ID_Estado = E.ID_Estado
+INNER JOIN PAIS P ON E.ID_Pais = P.ID_PAIS;
