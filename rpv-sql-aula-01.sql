@@ -328,3 +328,37 @@ SELECT P.ID_Pais, P.Nome_Pais, E.ID_Estado, E.Nome_Estado, C.ID_Cidade, C.Nome_C
 FROM Cidade C
 INNER JOIN Estado E ON C.ID_Estado = E.ID_Estado
 INNER JOIN Pais P ON E.ID_Pais = P.ID_Pais;
+
+##################################################################################
+# Exercício 03
+##################################################################################
+
+CREATE DATABASE db_testes;
+
+USE db_testes;
+
+create table tbl_pessoas (
+codigo smallint auto_increment primary key,
+nome varchar(30) not null,
+nascimento date,
+sexo enum("F","M"),
+peso decimal(5,2),
+altura decimal(3,2),
+nacionalidade varchar(20) default "Brasil"
+)engine=Innodb;
+
+ALTER TABLE tbl_pessoas ADD Profissao_Coluna VARCHAR(20);
+
+ALTER TABLE tbl_pessoas DROP Profissao_Coluna;
+
+ALTER TABLE tbl_pessoas ADD idade INT AFTER nome;
+
+ALTER TABLE tbl_pessoas ADD primeira VARCHAR(10) FIRST;
+
+ALTER TABLE tbl_pessoas DROP COLUMN primeira;
+
+ALTER TABLE tbl_pessoas MODIFY Profissao_Coluna VARCHAR(30);
+
+ALTER TABLE tbl_pessoas CHANGE COLUMN Profissao_Coluna Prof VARCHAR(20);
+
+ALTER TABLE tbl_pessoas CHANGE COLUMN Prof Profissao_Coluna VARCHAR(40);
